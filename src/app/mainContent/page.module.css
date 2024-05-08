@@ -4,30 +4,10 @@
 .bottomRow {
     margin-top: 30px;
 }
-.bottomRow .row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 20px;
-    height: 40px;
-}
-.row .time {
-    font-size: 1.5rem;
-}
-.name {
-    display: flex;
-    justify-content: space-between;
-    width: 95px;
-    font-size: 1.5rem;
-}
+
 .mainContent h2 {
     color: #083577;
 } 
 .mainContent h1 {
     color: #083577;
-}
-.row .name {
-    color: #083577;
-}
-.row .time {
 }
