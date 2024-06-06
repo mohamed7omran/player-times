@@ -10,7 +10,6 @@ import Select, { SelectChangeEvent } from "@mui/material/Select";
 import axios from "axios";
 import moment from "moment";
 import { useEffect, useState } from "react";
-import { keyframes, keys } from "@mui/system";
 // error for convert to Arabic
 import "moment/dist/locale/ar-dz";
 moment.locale("ar-dz");
@@ -28,8 +27,8 @@ export default function MainContent() {
     displayName: "الجيزة",
     apiName: "Giza",
   });
+  const [remainingTime, setRemainingTime] = useState("");
   const [today, setToday] = useState("");
-  const [timer, setTimer] = useState("10");
   const avilableCities = [
     {
       displayName: "الجيزة",
@@ -87,7 +86,7 @@ export default function MainContent() {
     return () => {
       clearInterval(interval);
     };
-  }, []);
+  }, [timings]);
 
   const countDown = () => {
     const timeNow = moment();
@@ -120,9 +119,19 @@ export default function MainContent() {
     const nextPrayerObj = PrayersArray[prayerIndex];
     const nextPrayerTime = timings[nextPrayerObj.key]; // timings["fajr"]
 
-    const remainingTime = moment(nextPrayerTime, "hh:mm").diff(timeNow);
+    let remainingTime = moment(nextPrayerTime, "hh:mm").diff(timeNow);
+    if (remainingTime < 0) {
+      const midNightDiff = moment("00:00:00", "hh:mm:ss").diff(timeNow);
+      const fajrToMidNightDiff = moment(nextPrayerTime, "hh:mm").diff(
+        moment("11:59:59", "hh:mm:ss")
+      );
+      const totalDiff = midNightDiff + fajrToMidNightDiff;
+      remainingTime = totalDiff;
+    }
     const durationRemainingTime = moment.duration(remainingTime);
-    console.log(durationRemainingTime.hours());
+    setRemainingTime(
+      `${durationRemainingTime.hours()}:${durationRemainingTime.minutes()}:${durationRemainingTime.seconds()}`
+    );
   };
 
   const handleCityChange = (event) => {
@@ -145,12 +154,12 @@ export default function MainContent() {
         {/* <image></image> */}
         <div>
           <h2> {today}</h2>
-          <h2>{timer}</h2>
+
           <h1 style={{ marginTop: "10px" }}>{selectedCity.displayName}</h1>
         </div>
         <div>
           <h2>متبقي حتي صلاة {PrayersArray[nextPrayerIndex].displayName}</h2>
-          <h1 style={{ marginTop: "10px" }}>10</h1>
+          <h1 style={{ marginTop: "10px" }}>{remainingTime}</h1>
         </div>
       </div>
       <Divider sx={{ color: "black", marginTop: "30px" }} variant="middle" />
