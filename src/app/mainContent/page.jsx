@@ -1,6 +1,5 @@
 "use client";
 import Prayer from "../../components/prayer/page";
-import styles from "./page.module.css";
 import Divider from "@mui/material/Divider";
 import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
@@ -142,59 +141,90 @@ export default function MainContent() {
   };
 
   return (
-    <div className={styles.mainContent}>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
-        className={styles.topRow}
-      >
-        {/* <image></image> */}
-        <div>
-          <h2> {today}</h2>
-
-          <h1 style={{ marginTop: "10px" }}>{selectedCity.displayName}</h1>
+    <div className=" mt-14 container mx-auto 2xl:px-72  lg:px-44  md:px-5  sm:px-14 max-[640px]:px-5">
+      <div className="relative isolate px-6  lg:px-8">
+        <div
+          className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
+          aria-hidden="true"
+        >
+          <div
+            className="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#4a0bb7] to-[#2111d0] opacity-30 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]"
+            style={{
+              clipPath:
+                "polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)",
+            }}
+          />
         </div>
-        <div>
-          <h2>متبقي حتي صلاة {PrayersArray[nextPrayerIndex].displayName}</h2>
-          <h1 style={{ marginTop: "10px" }}>{remainingTime}</h1>
+        <div className="hidden sm:mb-8 sm:flex sm:justify-center"></div>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+          className=""
+        >
+          <div>
+            <h2 className="text-2xl max-[500px]:text-sm"> {today}</h2>
+            <h1 className="text-2xl text-center" style={{ marginTop: "10px" }}>
+              {selectedCity.displayName}
+            </h1>
+          </div>
+          <div>
+            <h2 className="text-2xl max-[600px]:text-xl">
+              متبقي حتي صلاة {PrayersArray[nextPrayerIndex].displayName}
+            </h2>
+            <h1 className="text-2xl text-center" style={{ marginTop: "10px" }}>
+              {remainingTime}
+            </h1>
+          </div>
         </div>
+        <Divider sx={{ color: "black", marginTop: "30px" }} variant="middle" />
+        <div className="">
+          <Prayer name="الفجر" time={timings.Fajr}></Prayer>
+          <Divider
+            sx={{ color: "black", marginTop: "10px" }}
+            variant="middle"
+          />
+          <Prayer name="الظهر" time={timings.Dhuhr}></Prayer>
+          <Divider
+            sx={{ color: "black", marginTop: "10px" }}
+            variant="middle"
+          />
+          <Prayer name="العصر" time={timings.Asr}></Prayer>
+          <Divider
+            sx={{ color: "black", marginTop: "10px" }}
+            variant="middle"
+          />
+          <Prayer name="المغرب" time={timings.Maghrib}></Prayer>
+          <Divider
+            sx={{ color: "black", marginTop: "10px" }}
+            variant="middle"
+          />
+          <Prayer name="العشاء" time={timings.Isha}></Prayer>
+        </div>
+        <Stack sx={{ marginTop: "30px" }} direction="row">
+          <FormControl fullWidth>
+            <InputLabel variant="standard" htmlFor="uncontrolled-native">
+              المدينة
+            </InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              label="Age"
+              onChange={handleCityChange}
+            >
+              {avilableCities.map((c, id) => {
+                return (
+                  <MenuItem value={c.apiName} key={id}>
+                    {c.displayName}
+                  </MenuItem>
+                );
+              })}
+            </Select>
+          </FormControl>
+        </Stack>
       </div>
-      <Divider sx={{ color: "black", marginTop: "30px" }} variant="middle" />
-      <div className={styles.bottomRow}>
-        <Prayer name="الفجر" time={timings.Fajr}></Prayer>
-        <Divider sx={{ color: "black", marginTop: "10px" }} variant="middle" />
-        <Prayer name="الظهر" time={timings.Dhuhr}></Prayer>
-        <Divider sx={{ color: "black", marginTop: "10px" }} variant="middle" />
-        <Prayer name="العصر" time={timings.Asr}></Prayer>
-        <Divider sx={{ color: "black", marginTop: "10px" }} variant="middle" />
-        <Prayer name="المغرب" time={timings.Maghrib}></Prayer>
-        <Divider sx={{ color: "black", marginTop: "10px" }} variant="middle" />
-        <Prayer name="العشاء" time={timings.Isha}></Prayer>
-      </div>
-      <Stack sx={{ marginTop: "30px" }} direction="row">
-        <FormControl fullWidth>
-          <InputLabel variant="standard" htmlFor="uncontrolled-native">
-            المدينة
-          </InputLabel>
-          <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            label="Age"
-            onChange={handleCityChange}
-          >
-            {avilableCities.map((c, id) => {
-              return (
-                <MenuItem value={c.apiName} key={id}>
-                  {c.displayName}
-                </MenuItem>
-              );
-            })}
-          </Select>
-        </FormControl>
-      </Stack>
     </div>
   );
 }
